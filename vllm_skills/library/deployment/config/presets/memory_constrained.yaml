@@ -1,0 +1,36 @@
+# Memory Constrained Configuration Preset
+# Optimized for systems with limited GPU memory
+
+name: "Memory Constrained"
+description: "Reduce memory usage for smaller GPUs"
+
+settings:
+  # Conservative batch sizes
+  max_num_seqs: 128
+  max_num_batched_tokens: 4096
+  
+  # Reduce memory usage
+  gpu_memory_utilization: 0.75
+  max_model_len: 4096  # Shorter context
+  
+  # Quantization (if supported)
+  quantization: "awq"  # or "gptq" or "squeezellm"
+  
+  # Memory optimizations
+  enable_chunked_prefill: false
+  enable_prefix_caching: false
+  
+use_cases:
+  - "Single GPU with limited VRAM"
+  - "Running larger models on smaller GPUs"
+  - "Development and testing"
+
+tradeoffs:
+  - "Reduced context length"
+  - "May need quantization"
+  - "Lower throughput"
+
+recommendations:
+  - "Consider using AWQ or GPTQ quantization"
+  - "Reduce max_model_len to fit in memory"
+  - "Monitor GPU memory usage with nvidia-smi"

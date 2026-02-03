@@ -1,0 +1,61 @@
+# Official vLLM Resources
+
+documentation:
+  main: "https://docs.vllm.ai/"
+  
+  sections:
+    getting_started: "https://docs.vllm.ai/en/latest/getting_started/quickstart.html"
+    installation: "https://docs.vllm.ai/en/latest/getting_started/installation.html"
+    serving: "https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html"
+    models: "https://docs.vllm.ai/en/latest/models/supported_models.html"
+    performance: "https://docs.vllm.ai/en/latest/performance/benchmarks.html"
+    
+  advanced:
+    quantization: "https://docs.vllm.ai/en/latest/quantization/supported_hardware.html"
+    distributed: "https://docs.vllm.ai/en/latest/serving/distributed_serving.html"
+    engine_args: "https://docs.vllm.ai/en/latest/serving/engine_args.html"
+
+github:
+  repository: "https://github.com/vllm-project/vllm"
+  issues: "https://github.com/vllm-project/vllm/issues"
+  discussions: "https://github.com/vllm-project/vllm/discussions"
+  releases: "https://github.com/vllm-project/vllm/releases"
+
+recipes:
+  repository: "https://github.com/vllm-project/recipes"
+  
+  categories:
+    deployment: "https://github.com/vllm-project/recipes/tree/main/deployment"
+    optimization: "https://github.com/vllm-project/recipes/tree/main/optimization"
+    models: "https://github.com/vllm-project/recipes/tree/main/models"
+
+community:
+  discord: "https://discord.gg/vllm"
+  slack: "https://vllm.slack.com"
+  twitter: "https://twitter.com/vllm_project"
+
+support:
+  bug_reports: "https://github.com/vllm-project/vllm/issues/new?template=bug_report.md"
+  feature_requests: "https://github.com/vllm-project/vllm/issues/new?template=feature_request.md"
+  questions: "https://github.com/vllm-project/vllm/discussions/categories/q-a"
+
+papers:
+  vllm:
+    title: "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+    arxiv: "https://arxiv.org/abs/2309.06180"
+    year: 2023
+
+blogs:
+  official: "https://blog.vllm.ai/"
+  
+  popular_posts:
+    - title: "vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention"
+      url: "https://blog.vllm.ai/2023/06/20/vllm.html"
+    
+    - title: "How continuous batching enables 23x throughput"
+      url: "https://blog.vllm.ai/2023/06/20/continuous-batching.html"
+
+related_projects:
+  huggingface_tgi: "https://github.com/huggingface/text-generation-inference"
+  nvidia_tensorrt_llm: "https://github.com/NVIDIA/TensorRT-LLM"
+  ray_serve: "https://docs.ray.io/en/latest/serve/index.html"

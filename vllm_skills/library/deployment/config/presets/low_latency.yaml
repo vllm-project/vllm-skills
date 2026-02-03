@@ -1,0 +1,30 @@
+# Low Latency Configuration Preset
+# Optimized for minimal response time
+
+name: "Low Latency"
+description: "Minimize latency for interactive applications"
+
+settings:
+  # Small batches for quick response
+  max_num_seqs: 64
+  max_num_batched_tokens: 2048
+  
+  # Memory (less aggressive to avoid swapping)
+  gpu_memory_utilization: 0.85
+  
+  # Disable features that add latency
+  enable_chunked_prefill: false
+  enable_prefix_caching: false
+  
+  # Scheduler
+  scheduling_policy: "priority"
+  
+use_cases:
+  - "Interactive chatbots"
+  - "Real-time applications"
+  - "Single-user demos"
+
+tradeoffs:
+  - "Lower overall throughput"
+  - "Faster individual responses"
+  - "Better for interactive use"

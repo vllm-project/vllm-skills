@@ -1,0 +1,96 @@
+# Recipe Index
+# Maps popular models to their deployment recipes in vllm-project/recipes
+
+models:
+  # DeepSeek Models
+  - name: "DeepSeek-R1"
+    recipes:
+      - "deepseek/r1"
+    repository: "deepseek-ai/DeepSeek-R1"
+    description: "DeepSeek R1 reasoning model"
+    
+  - name: "DeepSeek-V3"
+    recipes:
+      - "deepseek/v3"
+    repository: "deepseek-ai/DeepSeek-V3"
+    description: "DeepSeek V3 base model"
+    
+  - name: "DeepSeek-V3.1"
+    recipes:
+      - "deepseek/v3.1"
+    repository: "deepseek-ai/DeepSeek-V3.1"
+    description: "DeepSeek V3.1 improved model"
+
+  # Qwen Models
+  - name: "Qwen3"
+    recipes:
+      - "qwen/qwen3"
+    repository: "Qwen/Qwen3-*"
+    description: "Qwen3 language models"
+    
+  - name: "Qwen3-VL"
+    recipes:
+      - "qwen/qwen3-vl"
+    repository: "Qwen/Qwen3-VL-*"
+    description: "Qwen3 vision-language models"
+    
+  - name: "Qwen2.5-VL"
+    recipes:
+      - "qwen/qwen2.5-vl"
+    repository: "Qwen/Qwen2.5-VL-*"
+    description: "Qwen2.5 vision-language models"
+
+  # Llama Models
+  - name: "Llama-3.1"
+    recipes:
+      - "meta/llama-3.1"
+    repository: "meta-llama/Llama-3.1-*"
+    description: "Meta Llama 3.1 models"
+    
+  - name: "Llama-3.3-70B"
+    recipes:
+      - "meta/llama-3.3-70b"
+    repository: "meta-llama/Llama-3.3-70B-Instruct"
+    description: "Meta Llama 3.3 70B model"
+    
+  - name: "Llama-4-Scout"
+    recipes:
+      - "meta/llama-4-scout"
+    repository: "meta-llama/Llama-4-Scout"
+    description: "Meta Llama 4 Scout model"
+
+  # Mistral Models
+  - name: "Mistral-Large"
+    recipes:
+      - "mistral/large"
+    repository: "mistralai/Mistral-Large-*"
+    description: "Mistral Large models"
+    
+  - name: "Mistral-Small"
+    recipes:
+      - "mistral/small"
+    repository: "mistralai/Mistral-Small-*"
+    description: "Mistral Small models"
+
+  # GLM Models
+  - name: "GLM-4"
+    recipes:
+      - "glm/glm4"
+    repository: "THUDM/glm-4-*"
+    description: "GLM-4 models from Tsinghua"
+
+  # NVIDIA Models
+  - name: "Nemotron"
+    recipes:
+      - "nvidia/nemotron"
+    repository: "nvidia/Nemotron-*"
+    description: "NVIDIA Nemotron models"
+
+  # Kimi Models
+  - name: "Kimi"
+    recipes:
+      - "moonshot/kimi"
+    repository: "moonshot-ai/Kimi-*"
+    description: "Moonshot Kimi models"
+
+recipe_repository: "https://github.com/vllm-project/recipes"

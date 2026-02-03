@@ -1,0 +1,30 @@
+# High Throughput Configuration Preset
+# Optimized for maximum throughput with batch processing
+
+name: "High Throughput"
+description: "Maximize throughput for batch processing workloads"
+
+settings:
+  # Batch processing
+  max_num_seqs: 512
+  max_num_batched_tokens: 8192
+  
+  # Memory
+  gpu_memory_utilization: 0.95
+  
+  # Performance optimizations
+  enable_chunked_prefill: true
+  enable_prefix_caching: true
+  
+  # Scheduler
+  scheduling_policy: "fcfs"  # First-come-first-served
+  
+use_cases:
+  - "Batch inference on large datasets"
+  - "Offline processing"
+  - "High volume API serving"
+
+tradeoffs:
+  - "Higher latency per request"
+  - "Better overall throughput"
+  - "Requires more GPU memory"

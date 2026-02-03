@@ -1,0 +1,143 @@
+# Hardware Matrix
+# GPU requirements by model size and precision
+
+model_sizes:
+  # 1B parameter models
+  "1B":
+    fp16:
+      min_vram_gb: 2
+      recommended_vram_gb: 4
+      gpus:
+        - "T4 (16GB)"
+        - "RTX 3060 (12GB)"
+        - "RTX 4060 (8GB)"
+    
+    int4:
+      min_vram_gb: 1
+      recommended_vram_gb: 2
+      gpus:
+        - "Any GPU with 2GB+"
+
+  # 3B parameter models
+  "3B":
+    fp16:
+      min_vram_gb: 6
+      recommended_vram_gb: 8
+      gpus:
+        - "RTX 3060 (12GB)"
+        - "RTX 4060 Ti (16GB)"
+        - "RTX 4070 (12GB)"
+    
+    int4:
+      min_vram_gb: 2
+      recommended_vram_gb: 4
+      gpus:
+        - "T4 (16GB)"
+        - "RTX 3060 (12GB)"
+
+  # 7B parameter models
+  "7B":
+    fp16:
+      min_vram_gb: 14
+      recommended_vram_gb: 16
+      gpus:
+        - "V100 (16GB)"
+        - "RTX 3090 (24GB)"
+        - "RTX 4090 (24GB)"
+        - "A10 (24GB)"
+        - "L4 (24GB)"
+    
+    int4:
+      min_vram_gb: 4
+      recommended_vram_gb: 6
+      gpus:
+        - "RTX 3060 (12GB)"
+        - "T4 (16GB)"
+
+  # 13B parameter models
+  "13B":
+    fp16:
+      min_vram_gb: 26
+      recommended_vram_gb: 32
+      gpus:
+        - "A100 (40GB)"
+        - "A100 (80GB)"
+        - "H100 (80GB)"
+        - "RTX 3090 (24GB) + TP2"
+    
+    int4:
+      min_vram_gb: 8
+      recommended_vram_gb: 12
+      gpus:
+        - "RTX 3060 (12GB)"
+        - "RTX 4060 Ti (16GB)"
+
+  # 70B parameter models
+  "70B":
+    fp16:
+      min_vram_gb: 140
+      recommended_vram_gb: 160
+      gpus:
+        - "2x A100 (80GB)"
+        - "2x H100 (80GB)"
+        - "4x A100 (40GB)"
+        - "8x RTX 3090 (24GB)"
+    
+    int4:
+      min_vram_gb: 40
+      recommended_vram_gb: 48
+      gpus:
+        - "A100 (40GB)"
+        - "2x RTX 3090 (24GB)"
+
+tensor_parallel_recommendations:
+  # Recommendations for tensor parallelism
+  single_gpu:
+    max_model_size: "13B-fp16 or 70B-int4"
+    gpu_types:
+      - "A100 80GB"
+      - "H100 80GB"
+  
+  2_gpus:
+    max_model_size: "70B-fp16"
+    gpu_types:
+      - "2x A100 80GB"
+      - "2x H100 80GB"
+  
+  4_gpus:
+    max_model_size: "70B-fp16 (comfortable)"
+    gpu_types:
+      - "4x A100 40GB"
+      - "4x L4 24GB"
+  
+  8_gpus:
+    max_model_size: "405B-fp16 or MoE models"
+    gpu_types:
+      - "8x A100 80GB"
+      - "8x H100 80GB"
+
+quantization_options:
+  awq:
+    description: "Activation-aware Weight Quantization"
+    bits: 4
+    quality: "high"
+    speedup: "moderate"
+  
+  gptq:
+    description: "GPT Quantization"
+    bits: [2, 3, 4, 8]
+    quality: "good"
+    speedup: "high"
+  
+  squeezellm:
+    description: "SqueezeLLM Quantization"
+    bits: [3, 4]
+    quality: "very_high"
+    speedup: "moderate"
+  
+  fp8:
+    description: "FP8 Quantization (H100 optimized)"
+    bits: 8
+    quality: "very_high"
+    speedup: "high"
+    hardware_requirement: "H100 or newer"
