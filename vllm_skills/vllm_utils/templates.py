@@ -36,7 +36,7 @@ def fix_chat_template(model_name: str, tokenizer: Any) -> Optional[str]:
 
     # Apply fixes based on model
     # This is a placeholder - actual fixes would be model-specific
-    fix_info = TEMPLATE_FIXES[model_name]
+    # fix_info = TEMPLATE_FIXES[model_name]
 
     # Return modified template (implementation would go here)
     return current_template

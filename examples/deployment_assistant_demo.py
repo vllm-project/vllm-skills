@@ -65,7 +65,7 @@ async def main():
             print(f"  Description: {recipe.get('description', 'N/A')}")
         else:
             print(f"\n  Model: {model}")
-            print(f"  Recipe: Not found")
+            print("  Recipe: Not found")
 
     # Demo 3: Generate configuration
     print("\n" + "-" * 70)

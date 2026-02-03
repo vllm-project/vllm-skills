@@ -1,7 +1,6 @@
 """Sandbox interfaces for safe code execution"""
 
 import asyncio
-import subprocess
 from abc import ABC, abstractmethod
 from typing import Any
 

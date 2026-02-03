@@ -1,6 +1,5 @@
 """Environment detection utilities"""
 
-import subprocess
 import sys
 from dataclasses import dataclass
 from typing import Optional
