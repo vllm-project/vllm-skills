@@ -1,0 +1,182 @@
+# Recipe Index
+# Maps models to their deployment guides in vllm-project/recipes
+
+base_url: "https://github.com/vllm-project/recipes/tree/main"
+
+recipes:
+  - name: "DeepSeek-R1"
+    path: "deepseek-r1"
+    url: "https://github.com/vllm-project/recipes/tree/main/deepseek-r1"
+    models:
+      - "deepseek-ai/DeepSeek-R1"
+      - "deepseek-ai/DeepSeek-R1-Distill-Qwen"
+      - "deepseek-ai/DeepSeek-R1-Distill-Llama"
+    description: "DeepSeek R1 reasoning model deployment guide"
+    
+  - name: "DeepSeek-V3"
+    path: "deepseek-v3"
+    url: "https://github.com/vllm-project/recipes/tree/main/deepseek-v3"
+    models:
+      - "deepseek-ai/DeepSeek-V3"
+      - "deepseek-ai/DeepSeek-V3-Base"
+    description: "DeepSeek V3 671B MoE model deployment guide"
+    
+  - name: "DeepSeek-V3.1"
+    path: "deepseek-v3.1"
+    url: "https://github.com/vllm-project/recipes/tree/main/deepseek-v3.1"
+    models:
+      - "deepseek-ai/DeepSeek-V3.1"
+    description: "DeepSeek V3.1 MoE model deployment guide"
+    
+  - name: "DeepSeek-V3.2"
+    path: "deepseek-v3.2"
+    url: "https://github.com/vllm-project/recipes/tree/main/deepseek-v3.2"
+    models:
+      - "deepseek-ai/DeepSeek-V3.2"
+    description: "DeepSeek V3.2 MoE model deployment guide"
+    
+  - name: "Qwen3"
+    path: "qwen3"
+    url: "https://github.com/vllm-project/recipes/tree/main/qwen3"
+    models:
+      - "Qwen/Qwen3"
+      - "Qwen/Qwen3-Instruct"
+    description: "Qwen3 model deployment guide"
+    
+  - name: "Qwen3-VL"
+    path: "qwen3-vl"
+    url: "https://github.com/vllm-project/recipes/tree/main/qwen3-vl"
+    models:
+      - "Qwen/Qwen3-VL"
+      - "Qwen/Qwen3-VL-Chat"
+    description: "Qwen3-VL vision-language model deployment guide"
+    
+  - name: "Qwen2.5-VL"
+    path: "qwen2.5-vl"
+    url: "https://github.com/vllm-project/recipes/tree/main/qwen2.5-vl"
+    models:
+      - "Qwen/Qwen2.5-VL-7B-Instruct"
+      - "Qwen/Qwen2.5-VL-72B-Instruct"
+    description: "Qwen2.5-VL vision-language model deployment guide"
+    
+  - name: "Llama-3.1"
+    path: "llama-3.1"
+    url: "https://github.com/vllm-project/recipes/tree/main/llama-3.1"
+    models:
+      - "meta-llama/Llama-3.1-8B"
+      - "meta-llama/Llama-3.1-8B-Instruct"
+      - "meta-llama/Llama-3.1-70B"
+      - "meta-llama/Llama-3.1-70B-Instruct"
+      - "meta-llama/Llama-3.1-405B"
+      - "meta-llama/Llama-3.1-405B-Instruct"
+    description: "Meta Llama 3.1 deployment guide"
+    
+  - name: "Llama-3.3-70B"
+    path: "llama-3.3-70b"
+    url: "https://github.com/vllm-project/recipes/tree/main/llama-3.3-70b"
+    models:
+      - "meta-llama/Llama-3.3-70B-Instruct"
+    description: "Meta Llama 3.3 70B deployment guide"
+    
+  - name: "Llama-4-Scout"
+    path: "llama-4-scout"
+    url: "https://github.com/vllm-project/recipes/tree/main/llama-4-scout"
+    models:
+      - "meta-llama/Llama-4-Scout"
+    description: "Meta Llama 4 Scout deployment guide"
+    
+  - name: "Mistral-Large-3"
+    path: "mistral-large-3"
+    url: "https://github.com/vllm-project/recipes/tree/main/mistral-large-3"
+    models:
+      - "mistralai/Mistral-Large-Instruct-2407"
+      - "mistralai/Mistral-Large-Instruct-2411"
+    description: "Mistral Large 3 deployment guide"
+    
+  - name: "Ministral-3"
+    path: "ministral-3"
+    url: "https://github.com/vllm-project/recipes/tree/main/ministral-3"
+    models:
+      - "mistralai/Ministral-3B-2410"
+      - "mistralai/Ministral-8B-2410"
+    description: "Ministral 3 deployment guide"
+    
+  - name: "Mixtral"
+    path: "mixtral"
+    url: "https://github.com/vllm-project/recipes/tree/main/mixtral"
+    models:
+      - "mistralai/Mixtral-8x7B-v0.1"
+      - "mistralai/Mixtral-8x7B-Instruct-v0.1"
+      - "mistralai/Mixtral-8x22B-v0.1"
+      - "mistralai/Mixtral-8x22B-Instruct-v0.1"
+    description: "Mixtral MoE models deployment guide"
+    
+  - name: "GLM-4"
+    path: "glm-4"
+    url: "https://github.com/vllm-project/recipes/tree/main/glm-4"
+    models:
+      - "THUDM/glm-4-9b"
+      - "THUDM/glm-4-9b-chat"
+    description: "GLM-4 deployment guide"
+    
+  - name: "GLM-4.5"
+    path: "glm-4.5"
+    url: "https://github.com/vllm-project/recipes/tree/main/glm-4.5"
+    models:
+      - "THUDM/glm-4.5-9b"
+      - "THUDM/glm-4.5-9b-chat"
+    description: "GLM-4.5 deployment guide"
+    
+  - name: "GLM-4.6"
+    path: "glm-4.6"
+    url: "https://github.com/vllm-project/recipes/tree/main/glm-4.6"
+    models:
+      - "THUDM/glm-4.6-9b"
+    description: "GLM-4.6 deployment guide"
+    
+  - name: "GLM-4.7"
+    path: "glm-4.7"
+    url: "https://github.com/vllm-project/recipes/tree/main/glm-4.7"
+    models:
+      - "THUDM/glm-4.7-9b"
+    description: "GLM-4.7 deployment guide"
+    
+  - name: "NVIDIA-Nemotron"
+    path: "nvidia-nemotron"
+    url: "https://github.com/vllm-project/recipes/tree/main/nvidia-nemotron"
+    models:
+      - "nvidia/Nemotron-4-340B-Instruct"
+      - "nvidia/Llama-3.1-Nemotron-70B-Instruct"
+    description: "NVIDIA Nemotron models deployment guide"
+    
+  - name: "Kimi-Moonshot"
+    path: "kimi-moonshot"
+    url: "https://github.com/vllm-project/recipes/tree/main/kimi-moonshot"
+    models:
+      - "moonshot-ai/Kimi"
+      - "moonshot-ai/Kimi-Chat"
+    description: "Kimi/Moonshot models deployment guide"
+    
+  - name: "Phi-4"
+    path: "phi-4"
+    url: "https://github.com/vllm-project/recipes/tree/main/phi-4"
+    models:
+      - "microsoft/Phi-4"
+    description: "Microsoft Phi-4 deployment guide"
+    
+  - name: "Gemma-2"
+    path: "gemma-2"
+    url: "https://github.com/vllm-project/recipes/tree/main/gemma-2"
+    models:
+      - "google/gemma-2-2b"
+      - "google/gemma-2-9b"
+      - "google/gemma-2-27b"
+    description: "Google Gemma 2 deployment guide"
+    
+  - name: "Command-R"
+    path: "command-r"
+    url: "https://github.com/vllm-project/recipes/tree/main/command-r"
+    models:
+      - "CohereForAI/c4ai-command-r-v01"
+      - "CohereForAI/c4ai-command-r-plus"
+    description: "Cohere Command-R deployment guide"

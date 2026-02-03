@@ -1,0 +1,209 @@
+# Hardware Requirements Matrix
+# Defines minimum and recommended hardware requirements for different model sizes
+
+# GPU Memory Requirements by Model Size (FP16/BF16, no quantization)
+model_sizes:
+  "1B-3B":
+    min_vram_gb: 8
+    recommended_vram_gb: 16
+    example_gpus:
+      - "RTX 3060 12GB"
+      - "RTX 4060 Ti 16GB"
+      - "T4 16GB"
+    min_ram_gb: 8
+    recommended_ram_gb: 16
+    
+  "7B-8B":
+    min_vram_gb: 16
+    recommended_vram_gb: 24
+    example_gpus:
+      - "RTX 4090 24GB"
+      - "RTX 3090 24GB"
+      - "A10G 24GB"
+      - "L4 24GB"
+    min_ram_gb: 16
+    recommended_ram_gb: 32
+    
+  "13B-14B":
+    min_vram_gb: 28
+    recommended_vram_gb: 40
+    example_gpus:
+      - "A100 40GB (1x)"
+      - "A100 80GB (1x)"
+      - "RTX 4090 24GB (2x with TP)"
+    min_ram_gb: 32
+    recommended_ram_gb: 64
+    
+  "32B-34B":
+    min_vram_gb: 70
+    recommended_vram_gb: 80
+    example_gpus:
+      - "A100 80GB (1x)"
+      - "H100 80GB (1x)"
+      - "A100 40GB (2x with TP)"
+    min_ram_gb: 64
+    recommended_ram_gb: 128
+    
+  "70B-72B":
+    min_vram_gb: 140
+    recommended_vram_gb: 160
+    example_gpus:
+      - "A100 80GB (2x with TP)"
+      - "H100 80GB (2x with TP)"
+      - "A100 40GB (4x with TP)"
+    min_ram_gb: 128
+    recommended_ram_gb: 256
+    
+  "405B":
+    min_vram_gb: 800
+    recommended_vram_gb: 960
+    example_gpus:
+      - "H100 80GB (8x with TP)"
+      - "A100 80GB (8x with TP + FP8)"
+    min_ram_gb: 256
+    recommended_ram_gb: 512
+    
+  "MoE-400B+":
+    min_vram_gb: 400
+    recommended_vram_gb: 640
+    example_gpus:
+      - "H100 80GB (8x with TP + FP8)"
+      - "A100 80GB (8x with TP + FP8)"
+    min_ram_gb: 256
+    recommended_ram_gb: 512
+    notes:
+      - "Requires FP8 quantization for most setups"
+      - "Enable expert parallelism for better performance"
+      - "Consider FP8 KV cache to reduce memory usage"
+
+# Quantization Memory Reduction
+quantization_savings:
+  fp8:
+    memory_reduction: 0.5  # 50% reduction
+    quality_impact: "minimal"
+    supported_models: "most modern models"
+    
+  awq:
+    memory_reduction: 0.75  # 25% reduction (4-bit)
+    quality_impact: "low"
+    supported_models: "requires AWQ checkpoint"
+    
+  gptq:
+    memory_reduction: 0.75  # 25% reduction (4-bit)
+    quality_impact: "low"
+    supported_models: "requires GPTQ checkpoint"
+    
+  bitsandbytes:
+    memory_reduction: 0.5  # 50% reduction (8-bit) or 0.75 (4-bit)
+    quality_impact: "low to medium"
+    supported_models: "most models"
+
+# GPU Compute Capabilities
+gpu_compute_capabilities:
+  nvidia:
+    "V100":
+      compute_capability: 7.0
+      fp16_support: true
+      bf16_support: false
+      flash_attention_support: true
+      recommended_for: "7B-13B models"
+      
+    "A100":
+      compute_capability: 8.0
+      fp16_support: true
+      bf16_support: true
+      flash_attention_support: true
+      fp8_support: true
+      recommended_for: "All model sizes"
+      
+    "H100":
+      compute_capability: 9.0
+      fp16_support: true
+      bf16_support: true
+      flash_attention_support: true
+      fp8_support: true
+      fp8_tensor_cores: true
+      recommended_for: "Large models (70B+), MoE models"
+      
+    "RTX 4090":
+      compute_capability: 8.9
+      fp16_support: true
+      bf16_support: true
+      flash_attention_support: true
+      fp8_support: true
+      recommended_for: "7B-13B models, consumer option"
+      
+    "RTX 3090":
+      compute_capability: 8.6
+      fp16_support: true
+      bf16_support: true
+      flash_attention_support: true
+      recommended_for: "7B models, consumer option"
+      
+    "L4":
+      compute_capability: 8.9
+      fp16_support: true
+      bf16_support: true
+      flash_attention_support: true
+      recommended_for: "7B models, inference optimization"
+      
+  amd:
+    "MI250X":
+      architecture: "CDNA2"
+      fp16_support: true
+      bf16_support: true
+      recommended_for: "Large models with ROCm"
+      
+    "MI300X":
+      architecture: "CDNA3"
+      fp16_support: true
+      bf16_support: true
+      fp8_support: true
+      recommended_for: "All model sizes with ROCm"
+
+# Software Compatibility Matrix
+compatibility:
+  vllm_0_6_x:
+    pytorch: "2.0-2.4"
+    cuda: "11.8, 12.1"
+    python: "3.8-3.11"
+    flash_attention: "2.3+"
+    
+  vllm_0_7_x:
+    pytorch: "2.0-2.5"
+    cuda: "11.8-12.4"
+    python: "3.8-3.12"
+    flash_attention: "2.4+"
+    
+  vllm_0_8_x:
+    pytorch: "2.1-2.6"
+    cuda: "11.8-12.6"
+    python: "3.8-3.12"
+    flash_attention: "2.5+"
+    rocm: "5.7, 6.0, 6.1"
+
+# Recommended Configurations
+recommended_configs:
+  small_model_inference:
+    model_size: "7B-8B"
+    gpu: "1x RTX 4090 / A10G / L4"
+    tensor_parallel: 1
+    gpu_memory_utilization: 0.90
+    use_case: "Development, low-cost production"
+    
+  medium_model_inference:
+    model_size: "70B"
+    gpu: "2x A100 80GB"
+    tensor_parallel: 2
+    gpu_memory_utilization: 0.85
+    use_case: "Production workloads"
+    
+  large_moe_inference:
+    model_size: "400B+ MoE"
+    gpu: "8x H100 80GB"
+    tensor_parallel: 8
+    gpu_memory_utilization: 0.80
+    quantization: "fp8"
+    enable_expert_parallel: true
+    kv_cache_dtype: "fp8"
+    use_case: "Large-scale production"

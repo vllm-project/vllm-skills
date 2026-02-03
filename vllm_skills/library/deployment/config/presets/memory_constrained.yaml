@@ -1,0 +1,84 @@
+# Memory Constrained Configuration Preset
+# Optimized for deployments with limited VRAM
+
+name: "Memory Constrained"
+description: "Minimize memory usage for limited VRAM scenarios"
+use_case: "Single GPU, limited VRAM, consumer GPUs, cost optimization"
+
+# Core parameters
+gpu_memory_utilization: 0.80  # Conservative to avoid OOM
+max_num_seqs: 128  # Moderate batch size
+max_model_len: 8192  # Reduced context length to save memory
+
+# Caching and optimization
+enable_prefix_caching: false  # Saves memory overhead
+enable_chunked_prefill: true  # Helps manage memory for long prompts
+
+# Memory optimizations
+kv_cache_dtype: "fp8"  # Use FP8 KV cache to reduce memory by ~50%
+block_size: 8  # Smaller blocks for finer memory control
+swap_space: 4  # Enable CPU swap (4GB)
+
+# Quantization (if applicable)
+# quantization: "fp8"  # Uncomment if model supports FP8 quantization
+
+# Scheduling
+scheduler_delay_factor: 0.2  # Some batching for efficiency
+max_seq_len_to_capture: 2048  # Smaller CUDA graphs
+
+# Other settings
+dtype: "auto"  # Or "float16" to save memory vs bfloat16
+enforce_eager: false
+disable_log_stats: false
+disable_log_requests: true
+
+# Recommended model types
+recommended_for:
+  - "Consumer GPU deployments (RTX 3090, 4090)"
+  - "Single GPU servers"
+  - "Development environments"
+  - "Cost-optimized production"
+  - "Edge deployments"
+
+# Trade-offs
+trade_offs:
+  pros:
+    - "Fits on smaller GPUs"
+    - "Lower cost"
+    - "Reduced memory footprint"
+  cons:
+    - "Limited context length"
+    - "Potential quality impact from FP8 KV cache"
+    - "Lower throughput"
+
+# Example usage
+example_command: |
+  vllm serve meta-llama/Llama-3.1-8B-Instruct \
+    --gpu-memory-utilization 0.80 \
+    --max-num-seqs 128 \
+    --max-model-len 8192 \
+    --kv-cache-dtype fp8 \
+    --enable-chunked-prefill \
+    --dtype float16
+
+# Advanced memory saving techniques
+advanced_techniques:
+  - name: "Use quantized models"
+    description: "Load AWQ or GPTQ quantized checkpoints"
+    command_flag: "--quantization awq"
+    memory_savings: "~75% (4-bit quantization)"
+    
+  - name: "Enable FP8 quantization"
+    description: "For Hopper GPUs (H100) and supported models"
+    command_flag: "--quantization fp8"
+    memory_savings: "~50%"
+    
+  - name: "Reduce max_model_len further"
+    description: "Decrease to 4096 or 2048 if needed"
+    command_flag: "--max-model-len 4096"
+    memory_savings: "Proportional to reduction"
+    
+  - name: "Use tensor parallelism"
+    description: "Split model across multiple smaller GPUs"
+    command_flag: "--tensor-parallel-size 2"
+    memory_savings: "Model weights distributed across GPUs"

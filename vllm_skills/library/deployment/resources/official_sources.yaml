@@ -1,0 +1,245 @@
+# Official Sources for vLLM Deployment Answers
+
+This index provides authoritative sources for vLLM deployment questions. When helping users, reference these official resources for accurate, up-to-date information.
+
+## vLLM Documentation
+
+### Installation & Setup
+- **Installation Guide**: https://docs.vllm.ai/en/latest/getting_started/installation.html
+  - Topics: pip installation, from source, Docker, CUDA/ROCm versions
+- **Quick Start**: https://docs.vllm.ai/en/latest/getting_started/quickstart.html
+  - Topics: First deployment, basic usage, API examples
+- **Docker Installation**: https://docs.vllm.ai/en/latest/getting_started/installation.html#docker
+  - Topics: Official images, custom builds
+
+### Models
+- **Supported Models**: https://docs.vllm.ai/en/latest/models/supported_models.html
+  - Topics: Complete model architecture list, limitations, compatibility
+- **Model Configuration**: https://docs.vllm.ai/en/latest/models/engine_args.html
+  - Topics: All model parameters, defaults, recommendations
+- **Vision-Language Models**: https://docs.vllm.ai/en/latest/models/vlm.html
+  - Topics: Multi-modal models, image inputs, video inputs
+
+### Quantization
+- **Quantization Overview**: https://docs.vllm.ai/en/latest/quantization/supported_hardware.html
+  - Topics: FP8, AWQ, GPTQ, SqueezeLLM, bitsandbytes
+- **Auto-Quantization**: https://docs.vllm.ai/en/latest/quantization/auto_awq.html
+  - Topics: How to quantize models, memory savings
+- **FP8 Quantization**: https://docs.vllm.ai/en/latest/quantization/fp8.html
+  - Topics: Hopper GPU optimization, W8A8 quantization
+
+### Distributed Inference
+- **Distributed Serving**: https://docs.vllm.ai/en/latest/serving/distributed_serving.html
+  - Topics: Tensor parallelism, pipeline parallelism, multi-node
+- **Ray for Serving**: https://docs.vllm.ai/en/latest/serving/ray_serve.html
+  - Topics: Scalable deployments, load balancing
+- **Expert Parallelism**: https://docs.vllm.ai/en/latest/serving/distributed_serving.html#expert-parallelism
+  - Topics: MoE models, DeepSeek-V3, Mixtral
+
+### Performance & Optimization
+- **Performance Tuning**: https://docs.vllm.ai/en/latest/performance/performance.html
+  - Topics: Throughput optimization, latency reduction, memory management
+- **Automatic Prefix Caching**: https://docs.vllm.ai/en/latest/automatic_prefix_caching/apc.html
+  - Topics: Prefix caching, repeated prompts, system prompts
+- **Chunked Prefill**: https://docs.vllm.ai/en/latest/features/chunked_prefill.html
+  - Topics: Long prompt optimization, latency control
+
+### Serving
+- **OpenAI-Compatible Server**: https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html
+  - Topics: API endpoints, chat completions, streaming
+- **Engine Arguments**: https://docs.vllm.ai/en/latest/models/engine_args.html
+  - Topics: All configuration parameters, flags, defaults
+
+### Troubleshooting
+- **Debugging Guide**: https://docs.vllm.ai/en/latest/getting_started/debugging.html
+  - Topics: Common errors, logging, profiling
+- **FAQ**: https://docs.vllm.ai/en/latest/getting_started/faq.html
+  - Topics: Common questions, known issues, workarounds
+
+### Advanced Features
+- **LoRA Adapters**: https://docs.vllm.ai/en/latest/models/lora.html
+  - Topics: Multi-LoRA serving, adapter management
+- **Speculative Decoding**: https://docs.vllm.ai/en/latest/features/spec_decode.html
+  - Topics: Draft models, speedup techniques
+- **Guided Generation**: https://docs.vllm.ai/en/latest/features/structured_outputs.html
+  - Topics: JSON mode, regex, grammar-based generation
+
+---
+
+## vLLM Recipes Repository
+
+**Repository**: https://github.com/vllm-project/recipes
+**Purpose**: Model-specific deployment guides with optimal configurations
+
+### Recipe Categories
+
+#### Popular Models
+- **DeepSeek Series**
+  - DeepSeek-R1: https://github.com/vllm-project/recipes/tree/main/deepseek-r1
+  - DeepSeek-V3: https://github.com/vllm-project/recipes/tree/main/deepseek-v3
+- **Qwen Series**
+  - Qwen3: https://github.com/vllm-project/recipes/tree/main/qwen3
+  - Qwen2.5-VL: https://github.com/vllm-project/recipes/tree/main/qwen2.5-vl
+- **Llama Series**
+  - Llama 3.1: https://github.com/vllm-project/recipes/tree/main/llama-3.1
+  - Llama 3.3-70B: https://github.com/vllm-project/recipes/tree/main/llama-3.3-70b
+- **Mistral Series**
+  - Mistral Large 3: https://github.com/vllm-project/recipes/tree/main/mistral-large-3
+  - Mixtral MoE: https://github.com/vllm-project/recipes/tree/main/mixtral
+
+#### What Recipes Provide
+- Tested configurations for specific models
+- Hardware requirements and recommendations
+- Known issues and workarounds
+- Performance benchmarks
+- Example commands
+
+---
+
+## GitHub Resources
+
+### Main Repository
+- **vLLM Repository**: https://github.com/vllm-project/vllm
+  - Source code, development, contributions
+
+### Issue Tracking
+- **GitHub Issues**: https://github.com/vllm-project/vllm/issues
+  - Bug reports, feature requests, known problems
+  - Search before asking questions
+- **GitHub Discussions**: https://github.com/vllm-project/vllm/discussions
+  - Q&A, ideas, community help
+  - Less formal than issues
+
+### Releases
+- **Release Notes**: https://github.com/vllm-project/vllm/releases
+  - New features, breaking changes, bug fixes
+  - Upgrade guides, migration notes
+
+### Contributing
+- **Contributing Guide**: https://github.com/vllm-project/vllm/blob/main/CONTRIBUTING.md
+  - How to contribute code, docs, bug reports
+- **Development Setup**: https://docs.vllm.ai/en/latest/developer/index.html
+  - Building from source, testing, debugging
+
+---
+
+## Community Resources
+
+### Discord
+- **vLLM Discord**: https://discord.gg/vllm
+  - Real-time community support
+  - Channels: #help, #deployment, #bugs, #features
+  - Direct access to maintainers
+
+### Blog
+- **vLLM Blog**: https://blog.vllm.ai/
+  - Announcements, tutorials, deep dives
+  - Performance comparisons, best practices
+
+### Social Media
+- **Twitter/X**: [@vllm_project](https://twitter.com/vllm_project)
+  - Updates, announcements
+- **LinkedIn**: vLLM Project page
+  - Professional updates, use cases
+
+---
+
+## External Resources
+
+### Academic Papers
+- **vLLM Paper**: "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+  - https://arxiv.org/abs/2309.06180
+  - Theoretical foundation, architecture details
+
+### Benchmarks & Comparisons
+- **Artificial Analysis**: https://artificialanalysis.ai/
+  - vLLM vs TGI vs others
+  - Throughput, latency, cost comparisons
+- **Anyscale Blog**: Performance studies
+  - Real-world benchmarks
+
+### Hardware Vendors
+- **NVIDIA AI**: https://www.nvidia.com/en-us/ai/
+  - GPU specifications, CUDA guides
+- **AMD ROCm**: https://www.amd.com/en/products/software/rocm.html
+  - AMD GPU support, compatibility
+
+---
+
+## How to Use This Index
+
+### For AI Agents
+
+When a user asks about:
+
+1. **Installation issues** → Point to Installation Guide
+2. **Specific model deployment** → Check Recipes first, then Supported Models
+3. **Performance problems** → Performance Tuning docs
+4. **OOM errors** → Troubleshooting Guide + Memory Management docs
+5. **Configuration parameters** → Engine Arguments reference
+6. **Feature questions** → Search Documentation sections
+7. **Bugs/errors** → Search GitHub Issues, then Troubleshooting
+8. **Community help** → Discord for real-time, Discussions for async
+
+### Search Strategy
+
+1. **Start specific**: Check Recipes for model-specific guides
+2. **Check official docs**: Authoritative and up-to-date
+3. **Search issues**: Many questions already answered
+4. **Ask community**: Discord for urgent, Discussions for detailed
+
+### Citation Format
+
+When referencing sources:
+
+```
+According to the [vLLM Installation Guide](https://docs.vllm.ai/en/latest/getting_started/installation.html), 
+you need CUDA 11.8 or later...
+
+The [Llama 3.1 recipe](https://github.com/vllm-project/recipes/tree/main/llama-3.1) 
+recommends using bfloat16 on Ampere GPUs...
+
+As mentioned in [GitHub issue #1234](https://github.com/vllm-project/vllm/issues/1234), 
+this is a known limitation...
+```
+
+---
+
+## Keeping Up-to-Date
+
+### Monitoring Changes
+
+- **Watch vLLM releases**: https://github.com/vllm-project/vllm/releases
+- **Follow blog**: https://blog.vllm.ai/
+- **Join Discord**: Announcements channel
+- **Subscribe to discussions**: GitHub notifications
+
+### Version-Specific Documentation
+
+- **Latest stable**: https://docs.vllm.ai/en/latest/
+- **Specific version**: https://docs.vllm.ai/en/v0.8.0/ (replace version)
+- **Development**: https://docs.vllm.ai/en/dev/
+
+### Deprecation Warnings
+
+Check release notes for:
+- Deprecated parameters
+- Breaking changes
+- Migration guides
+
+---
+
+## Quick Reference by Topic
+
+| Topic | Primary Source | Secondary Source |
+|-------|----------------|------------------|
+| Installation | [Installation Guide](https://docs.vllm.ai/en/latest/getting_started/installation.html) | Docker docs |
+| Model Support | [Supported Models](https://docs.vllm.ai/en/latest/models/supported_models.html) | Recipes |
+| Quantization | [Quantization Guide](https://docs.vllm.ai/en/latest/quantization/supported_hardware.html) | Model-specific recipes |
+| OOM Errors | [Performance Tuning](https://docs.vllm.ai/en/latest/performance/performance.html) | Troubleshooting guide |
+| Multi-GPU | [Distributed Serving](https://docs.vllm.ai/en/latest/serving/distributed_serving.html) | Tensor parallelism docs |
+| API Usage | [OpenAI Server](https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html) | Quick start |
+| Performance | [Performance Guide](https://docs.vllm.ai/en/latest/performance/performance.html) | Blog posts |
+| MoE Models | [Expert Parallelism](https://docs.vllm.ai/en/latest/serving/distributed_serving.html#expert-parallelism) | DeepSeek/Mixtral recipes |
+| Vision Models | [VLM Guide](https://docs.vllm.ai/en/latest/models/vlm.html) | Qwen-VL recipes |
+| LoRA | [LoRA Guide](https://docs.vllm.ai/en/latest/models/lora.html) | GitHub issues |

@@ -1,0 +1,57 @@
+# Low Latency Configuration Preset
+# Optimized for minimal latency and fast response times
+
+name: "Low Latency"
+description: "Minimize time-to-first-token and overall latency"
+use_case: "Interactive chat, real-time applications, streaming responses"
+
+# Core parameters
+gpu_memory_utilization: 0.85  # Leave headroom for quick allocation
+max_num_seqs: 64  # Smaller batch size for lower latency
+max_num_batched_tokens: 4096  # Limit batched tokens
+
+# Caching and optimization
+enable_prefix_caching: false  # Slight overhead not worth it for latency
+enable_chunked_prefill: true  # Process long prompts in chunks
+
+# Memory optimizations
+kv_cache_dtype: "auto"  # Can use fp8 if memory constrained
+block_size: 16  # Default block size
+
+# Scheduling
+scheduler_delay_factor: 0.0  # No delay, immediate scheduling
+max_seq_len_to_capture: 2048  # Shorter sequences for faster compilation
+
+# Other settings
+dtype: "auto"
+enforce_eager: false  # CUDA graphs still help with latency
+disable_log_stats: false
+disable_log_requests: false
+
+# Recommended model types
+recommended_for:
+  - "Interactive chatbots"
+  - "Real-time applications"
+  - "Streaming responses"
+  - "User-facing APIs"
+  - "Low-latency serving"
+
+# Trade-offs
+trade_offs:
+  pros:
+    - "Fastest time-to-first-token"
+    - "Best user experience for interactive use"
+    - "Predictable latency"
+  cons:
+    - "Lower throughput"
+    - "Lower GPU utilization"
+    - "Higher cost per token"
+
+# Example usage
+example_command: |
+  vllm serve meta-llama/Llama-3.1-8B-Instruct \
+    --gpu-memory-utilization 0.85 \
+    --max-num-seqs 64 \
+    --max-num-batched-tokens 4096 \
+    --enable-chunked-prefill \
+    --dtype bfloat16

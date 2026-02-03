@@ -1,0 +1,56 @@
+# High Throughput Configuration Preset
+# Optimized for maximum throughput and batch processing
+
+name: "High Throughput"
+description: "Maximize requests per second and batch processing efficiency"
+use_case: "Batch processing, offline inference, high-volume production"
+
+# Core parameters
+gpu_memory_utilization: 0.95  # Use more memory for larger batches
+max_num_seqs: 512  # Large batch size for throughput
+max_num_batched_tokens: null  # Use default (auto-calculated)
+
+# Caching and optimization
+enable_prefix_caching: true  # Cache common prefixes
+enable_chunked_prefill: false  # Prioritize throughput over latency
+
+# Memory optimizations
+kv_cache_dtype: "auto"  # Can use fp8 for even more throughput
+block_size: 16  # Default block size
+
+# Scheduling
+scheduler_delay_factor: 0.5  # Allow more batching
+max_seq_len_to_capture: 8192  # Capture longer sequences in CUDA graphs
+
+# Other settings
+dtype: "auto"
+enforce_eager: false  # Use CUDA graphs for better throughput
+disable_log_stats: false
+disable_log_requests: true  # Reduce logging overhead
+
+# Recommended model types
+recommended_for:
+  - "Batch processing pipelines"
+  - "Offline evaluation"
+  - "Data labeling at scale"
+  - "Embedding generation"
+  - "Code generation in batch"
+
+# Trade-offs
+trade_offs:
+  pros:
+    - "Maximum requests per second"
+    - "Best GPU utilization"
+    - "Efficient for repeated prompts (with prefix caching)"
+  cons:
+    - "Higher time-to-first-token latency"
+    - "Requires more VRAM"
+    - "Not ideal for interactive use cases"
+
+# Example usage
+example_command: |
+  vllm serve meta-llama/Llama-3.1-8B-Instruct \
+    --gpu-memory-utilization 0.95 \
+    --max-num-seqs 512 \
+    --enable-prefix-caching \
+    --dtype bfloat16
