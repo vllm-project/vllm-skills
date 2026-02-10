@@ -197,7 +197,7 @@ class VLLMDeployer:
 
         Args:
             image: Docker image to use
-            port_mapping: Port mapping for the container (host:container or just host)
+            port_mapping: Host port for the container. If None, uses vllm_config.port.
             background: Run container in background (detached mode)
 
         Returns:
