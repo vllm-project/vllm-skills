@@ -307,7 +307,11 @@ class VLLMDeployer:
         import urllib.request
 
         if endpoint is None:
-            endpoint = f"http://{self.vllm_config.host}:{self.vllm_config.port}/v1/models"
+            host = self.vllm_config.host
+            # When binding to 0.0.0.0, use localhost for client requests
+            if host == "0.0.0.0":
+                host = "localhost"
+            endpoint = f"http://{host}:{self.vllm_config.port}/v1/models"
 
         try:
             with urllib.request.urlopen(endpoint, timeout=5) as response:
