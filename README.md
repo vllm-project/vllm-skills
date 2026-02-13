@@ -1,14 +1,12 @@
 # vLLM Skills
 
-A collection of skills for deploying vLLM as an online service with OpenAI-compatible API. This project follows the [anthropics/skills](https://github.com/anthropics/skills) template format.
+A collection of skills for deploying and invoking vLLM. This project follows the [anthropics/skills](https://github.com/anthropics/skills) template format.
 
 ## Overview
 
-vLLM Skills provides modular, reusable skills for deploying vLLM servers:
+This repository provides modular, reusable agent skills required to operate and invoke vLLM, following the Anthropics `SKILL.md` specification. Each skill is a self-contained directory implementing automation, scripts, and metadata for a specific operational task.
 
-- **vllm-deploy** - Deploy vLLM locally or via Docker with OpenAI-compatible API
-- OpenAI-compatible API out of the box - use as a drop-in replacement
-- Support for quantization, LoRA adapters, and tensor parallelism
+All skills adhere to the Anthropics skills template and can be copied into a Claude Code skills directory for use.
 
 ## Project Structure
 
