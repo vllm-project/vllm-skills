@@ -13,9 +13,11 @@ All skills adhere to the Anthropics skills template and can be copied into a Cla
 ```
 vllm-skills/
 ├── skills/
-│   └── vllm-deploy-simple/   # Local deployment skill
-│       ├── SKILL.md          # Skill documentation (YAML frontmatter + body)
-│       └── scripts/          # Deployment utilities
+│   ├── vllm-deploy-simple/   # Local deployment skill
+│   │   ├── SKILL.md          # Skill documentation (YAML frontmatter + body)
+│   │   └── scripts/          # Deployment utilities
+│   └── vllm-deploy-docker/   # Docker deployment skill
+│       └── SKILL.md          # Skill documentation (YAML frontmatter + body)
 └── README.md
 ```
 
@@ -41,7 +43,7 @@ Deploy vLLM as an online service with OpenAI-compatible API locally.
 
 2. Copy skills needed to your Claude Code skills directory
 
-   Copy the vllm-deploy-simple skill to global skill folder:
+   Copy the skills to global skill folder:
    
    ```bash
    cp -r skills/vllm-deploy-simple ~/.claude/skills/
