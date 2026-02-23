@@ -1,6 +1,6 @@
 ---
 name: vllm-deploy-simple
-description: Quick install and deploy vLLM on a GPU server, start serving with a simple LLM, and test OpenAI API.
+description: Quick install and deploy vLLM, start serving with a simple LLM, and test OpenAI API.
 ---
 
 # vLLM Simple Deployment
@@ -29,14 +29,14 @@ This skill provides a streamlined workflow to:
 
 ### Create a venv
 
-If user did not specify the venv path or asked to deploy in the current environment, create a venv with python 3.12. If uv not found, use python to create venv.
+If user did not specify the venv path or asked to deploy in the current environment, create a venv using uv with python 3.12 in the current folder. If uv not found, make a folder in this path and use python to create a virtual environment.
 
 ### Run the complete workflow (suggested)
 
 If user did not specify the venv path, model, or port, use default options:
 
 ```bash
-# Default deployment options (--venv "." --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000)
+# Default deployment options (--venv "." --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000 --gpu_memory_utilization 0.8)
 scripts/quickstart.sh
 ```
 
@@ -49,8 +49,11 @@ scripts/quickstart.sh --venv /path/to/venv
 # Use custom model and port
 scripts/quickstart.sh --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000
 
+# Use custom GPU memory utilization
+scripts/quickstart.sh --gpu_memory_utilization 0.6
+
 # Combine all options
-scripts/quickstart.sh --venv /path/to/venv --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000
+scripts/quickstart.sh --venv /path/to/venv --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000 --gpu_memory_utilization 0.8
 ```
 
 This will:
@@ -75,7 +78,7 @@ scripts/quickstart.sh install --venv /path/to/venv
 ```bash
 scripts/quickstart.sh start
 # Or with custom options
-scripts/quickstart.sh start --venv /path/to/venv --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000
+scripts/quickstart.sh start --venv /path/to/venv --model "Qwen/Qwen2.5-1.5B-Instruct" --port 8000 --gpu_memory_utilization 0.8
 ```
 
 **Test the API:**
@@ -88,7 +91,7 @@ scripts/quickstart.sh test --port 8000
 **Stop the server:**
 ```bash
 scripts/quickstart.sh stop
-# Or with custom venv path
+# Or with virtual environment
 scripts/quickstart.sh stop --venv /path/to/venv
 ```
 
@@ -99,7 +102,9 @@ scripts/quickstart.sh status
 
 **Restart the server:**
 ```bash
-scripts/quickstart.sh restart --venv /path/to/venv --port 8000
+scripts/quickstart.sh restart
+# Or with custom options
+scripts/quickstart.sh restart --venv /path/to/venv --port 8000 --gpu_memory_utilization 0.8
 ```
 
 ## Configuration
@@ -119,9 +124,10 @@ Commands:
   all      - Run complete workflow (default)
 
 Options:
-  --model MODEL       Model to use (default: Qwen/Qwen2.5-1.5B-Instruct)
-  --port PORT         Port to run server on (default: 8000)
-  --venv VENV_PATH    Virtual environment path (default: .)
+  --model MODEL                 Model to use (default: Qwen/Qwen2.5-1.5B-Instruct)
+  --port PORT                   Port to run server on (default: 8000)
+  --venv VENV_PATH              Virtual environment path (default: .)
+  --gpu_memory_utilization VRAM GPU memory utilization (default: 0.8)
 ```
 
 ### Hardware Backend Detection
