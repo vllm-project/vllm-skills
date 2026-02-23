@@ -143,8 +143,9 @@ After building, run your image just like the pre-built image:
 ```bash
 docker run --rm --runtime nvidia --gpus all \
   -v ~/.cache/huggingface:/root/.cache/huggingface \
-  --env "HF_TOKEN=<secret>" \
+  --env "HF_TOKEN=$HF_TOKEN" \
   -p 8000:8000 \
+  --ipc=host \
   vllm/vllm-openai \
   --model Qwen/Qwen2.5-1.5B-Instruct
 ```

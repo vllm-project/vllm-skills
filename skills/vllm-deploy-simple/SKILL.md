@@ -91,6 +91,8 @@ scripts/quickstart.sh test --port 8000
 **Stop the server:**
 ```bash
 scripts/quickstart.sh stop
+# Or with virtual environment
+scripts/quickstart.sh stop --venv /path/to/venv
 ```
 
 **Check server status:**
