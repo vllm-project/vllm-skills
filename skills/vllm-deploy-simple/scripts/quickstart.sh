@@ -10,7 +10,8 @@ MODEL="Qwen/Qwen2.5-1.5B-Instruct"
 PORT=8000
 HOST="0.0.0.0"
 VENV_PATH="."
-MAX_WAIT=120  # Maximum seconds to wait for server startup
+MAX_WAIT=120    # Maximum seconds to wait for server startup
+VRAM=0.8        # A conservative default for GPU memory utilization to avoid potential OOM issues. vLLM uses 0.9 by default.
 
 # Parse arguments
 COMMAND=""
@@ -28,13 +29,17 @@ while [[ $# -gt 0 ]]; do
             VENV_PATH="$2"
             shift 2
             ;;
+        --gpu_memory_utilization)
+            VRAM="$2"
+            shift 2
+            ;;
         install|start|stop|test|status|restart|all)
             COMMAND="$1"
             shift
             ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: $0 [command] [--model MODEL] [--port PORT] [--venv VENV_PATH]"
+            echo "Usage: $0 [command] [--model MODEL] [--port PORT] [--venv VENV_PATH] [--gpu_memory_utilization VRAM]"
             exit 1
             ;;
     esac
@@ -196,6 +201,7 @@ start_server() {
         --model "$MODEL" \
         --host "$HOST" \
         --port "$PORT" \
+        --gpu_memory_utilization "$VRAM" \
         > "$LOG_FILE" 2>&1 &
 
     echo $! > "$PID_FILE"
@@ -368,7 +374,7 @@ case "$COMMAND" in
         run_all
         ;;
     *)
-        echo "Usage: $0 [command] [--model MODEL] [--port PORT] [--venv VENV_PATH]"
+        echo "Usage: $0 [command] [--model MODEL] [--port PORT] [--venv VENV_PATH] [--gpu_memory_utilization VRAM]"
         echo ""
         echo "Commands:"
         echo "  install  - Install vLLM and dependencies"
@@ -380,9 +386,10 @@ case "$COMMAND" in
         echo "  all      - Run complete workflow (default)"
         echo ""
         echo "Options:"
-        echo "  --model MODEL       Model to use (default: Qwen/Qwen2.5-1.5B-Instruct)"
-        echo "  --port PORT         Port to run server on (default: 8000)"
-        echo "  --venv VENV_PATH    Virtual environment path (default: .)"
+        echo "  --model MODEL                   Model to use (default: Qwen/Qwen2.5-1.5B-Instruct)"
+        echo "  --port PORT                     Port to run server on (default: 8000)"
+        echo "  --venv VENV_PATH                Virtual environment path (default: .)"
+        echo "  --gpu_memory_utilization VRAM   GPU memory utilization (default: 0.8)"
         exit 1
         ;;
 esac
