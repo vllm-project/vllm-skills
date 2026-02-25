@@ -10,8 +10,8 @@ MODEL="Qwen/Qwen2.5-1.5B-Instruct"
 PORT=8000
 HOST="0.0.0.0"
 VENV_PATH="."
-MAX_WAIT=120  # Maximum seconds to wait for server startup
-VRAM=0.8
+MAX_WAIT=120    # Maximum seconds to wait for server startup
+VRAM=0.8        # A conservative default for GPU memory utilization to avoid potential OOM issues. vLLM uses 0.9 by default.
 
 # Parse arguments
 COMMAND=""

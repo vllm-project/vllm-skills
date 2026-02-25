@@ -1,11 +1,11 @@
 ---
 name: vllm-deploy-docker
-description: Deploy vLLM using Docker (pre-built images or build-from-source) and run the OpenAI-compatible server.
+description: Deploy vLLM using Docker (pre-built images or build-from-source) with NVIDIA GPU support and run the OpenAI-compatible server.
 ---
 
 # vLLM Docker Deployment
 
-A Claude skill describing how to deploy vLLM with Docker using the official pre-built images or building the image from source. Instructions include NVIDIA CUDA support, example `docker run` and a minimal `docker-compose` snippet, recommended flags, and troubleshooting notes.
+A Claude skill describing how to deploy vLLM with Docker using the official pre-built images or building the image from source supporting NVIDIA GPUs with CUDA. Instructions include NVIDIA CUDA support, example `docker run` and a minimal `docker-compose` snippet, recommended flags, and troubleshooting notes. For AMD, Intel, or other accelerators, please refer to the [vLLM documentation](https://docs.vllm.ai/) for alternative deployment methods.
 
 ## What this skill does
 
@@ -21,7 +21,7 @@ A Claude skill describing how to deploy vLLM with Docker using the official pre-
 - Optional: `curl` for API tests
 - A Hugging Face token if pulling private models or to avoid rate-limits: `HF_TOKEN`
 
-## Quickstart using Pre-built Image (recommended to do)
+## Quickstart using Pre-built Image (recommended)
 
 Run a vLLM OpenAI-compatible server with GPU access, mounting the HF cache and forwarding port 8000:
 
@@ -38,6 +38,8 @@ docker run --rm --gpus all \
 - `--gpus all` exposes all GPUs to the container. Adjust if you need specific GPUs.
 - `--ipc=host` or an appropriately large `--shm-size` is recommended so PyTorch and vLLM can share host shared memory.
 - Mounting `~/.cache/huggingface` avoids re-downloading models inside the container.
+
+> **Note:** vLLM and this skill recommend using the latest Docker image (`vllm/vllm-openai:latest`). For legacy version images, you may refer to the [Docker Hub image tags](https://hub.docker.com/r/vllm/vllm-openai/tags).
 
 ## Build Docker image from source
 
@@ -151,6 +153,7 @@ docker run --rm --runtime nvidia --gpus all \
 ```
 
 Replace `vllm/vllm-openai` with the tag you specified during the build (e.g., `my-vllm-custom:latest`).
+> **Note:** `--runtime nvidia` is deprecated for most environments. Prefer `--gpus ...` with NVIDIA Container Toolkit. Use `--runtime nvidia` only for legacy Docker configurations.
 
 ## Common server flags
 
