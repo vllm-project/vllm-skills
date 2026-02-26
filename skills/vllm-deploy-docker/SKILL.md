@@ -1,27 +1,31 @@
 ---
 name: vllm-deploy-docker
-description: Deploy vLLM using Docker (pre-built images or build-from-source) with NVIDIA GPU support and run the OpenAI-compatible server.
+description: Deploy vLLM using Docker (pre-built images or build-from-source) with NVIDIA GPU or Ascend NPU support and run the OpenAI-compatible server.
 ---
 
 # vLLM Docker Deployment
 
-A Claude skill describing how to deploy vLLM with Docker using the official pre-built images or building the image from source supporting NVIDIA GPUs with CUDA. Instructions include NVIDIA CUDA support, example `docker run` and a minimal `docker-compose` snippet, recommended flags, and troubleshooting notes. For AMD, Intel, or other accelerators, please refer to the [vLLM documentation](https://docs.vllm.ai/) for alternative deployment methods.
+
+A Claude skill describing how to deploy vLLM with Docker using the official pre-built images or building the image from source. Supports **NVIDIA GPUs (CUDA)** and **Huawei Ascend NPUs** via the [vllm-ascend](https://github.com/vllm-project/vllm-ascend) plugin. Instructions include example `docker run` and a minimal `docker-compose` snippet, recommended flags, and troubleshooting notes. For AMD, Intel, or other accelerators, please refer to the [vLLM documentation](https://docs.vllm.ai/) for alternative deployment methods.
 
 ## What this skill does
 
 - Deploy vLLM with docker using pre-built images (recommended for most users) or build from source for custom configurations
-- Provide example commands for running the OpenAI-compatible server with GPU access and mounted Hugging Face cache
+- Support both **NVIDIA CUDA** and **Ascend NPU** backends with auto-detection for image selection
+- Provide example commands for running the OpenAI-compatible server with GPU/NPU access and mounted Hugging Face cache
 - Point to build-from-source instructions when a custom image or optional dependencies are needed
 - Explain common flags: `--ipc=host`, shared cache mounts, and `HF_TOKEN` handling
 
 ## Prerequisites
 
 - Docker Engine installed (Docker 20.10+ recommended)
-- NVIDIA GPU(s) with appropriate drivers and CUDA toolkit installed
+- **NVIDIA**: GPU(s) with appropriate drivers and CUDA toolkit; **Ascend**: NPU(s) with appropriate drivers installed
 - Optional: `curl` for API tests
 - A Hugging Face token if pulling private models or to avoid rate-limits: `HF_TOKEN`
 
-## Quickstart using Pre-built Image (recommended)
+## NVIDIA
+
+### Quickstart using Pre-built Image (recommended)
 
 Run a vLLM OpenAI-compatible server with GPU access, mounting the HF cache and forwarding port 8000:
 
@@ -41,12 +45,12 @@ docker run --rm --gpus all \
 
 > **Note:** vLLM and this skill recommend using the latest Docker image (`vllm/vllm-openai:latest`). For legacy version images, you may refer to the [Docker Hub image tags](https://hub.docker.com/r/vllm/vllm-openai/tags).
 
-## Build Docker image from source
+### Build Docker image from source
 
 You can build and run vLLM from source by using the provided [docker/Dockerfile](https://github.com/vllm-project/vllm/blob/main/docker/Dockerfile). 
 First, check the hardware of the host machine and ensure you have the necessary dependencies installed (e.g., NVIDIA drivers, CUDA toolkit, Docker with BuildKit support). For ARM64/aarch64 builds, refer to the "Building for ARM64/aarch64" section.
 
-### Basic build command
+#### Basic build command
 
 ```bash
 DOCKER_BUILDKIT=1 docker build . \
@@ -57,13 +61,13 @@ DOCKER_BUILDKIT=1 docker build . \
 
 The `--target vllm-openai` specifies that you are building the OpenAI-compatible server image. The `DOCKER_BUILDKIT=1` environment variable enables BuildKit, which provides better caching and faster builds.
 
-### Build arguments and options
+#### Build arguments and options
 
 - **`--build-arg max_jobs=<N>`** — sets the number of parallel compilation jobs for building CUDA kernels. Useful for speeding up builds on multi-core systems.
 - **`--build-arg nvcc_threads=<N>`** — controls CUDA compiler threads. Recommended to use a smaller value than `max_jobs` to avoid excessive memory usage.
 - **`--build-arg torch_cuda_arch_list=""`** — if set to empty string, vLLM will detect and build only for the current GPU's compute capability. By default, vLLM builds for all GPU types for wider distribution.
 
-### Using precompiled wheels to speed up builds
+#### Using precompiled wheels to speed up builds
 
 If you have not changed any C++ or CUDA kernel code, you can use precompiled wheels to significantly reduce Docker build time:
 
@@ -82,7 +86,7 @@ DOCKER_BUILDKIT=1 docker build . \
   --build-arg VLLM_USE_PRECOMPILED="1"
 ```
 
-### Building with optional dependencies (optional)
+#### Building with optional dependencies (optional)
 
 vLLM does not include optional dependencies (e.g., audio processing) in the pre-built image to avoid licensing issues. If you need optional dependencies, create a custom Dockerfile that extends the base image:
 
@@ -117,7 +121,7 @@ docker run --rm --gpus all \
   --model Qwen/Qwen2.5-1.5B-Instruct
 ```
 
-### Building for ARM64/aarch64
+#### Building for ARM64/aarch64
 
 A Docker container can be built for ARM64 systems (e.g., NVIDIA Grace-Hopper and Grace-Blackwell). Use the flag `--platform "linux/arm64"`:
 
@@ -138,7 +142,7 @@ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 Then use the `--platform "linux/arm64"` flag in your build command.
 
-### Running your custom-built image
+#### Running your custom-built image
 
 After building, run your image just like the pre-built image:
 
@@ -154,6 +158,110 @@ docker run --rm --runtime nvidia --gpus all \
 
 Replace `vllm/vllm-openai` with the tag you specified during the build (e.g., `my-vllm-custom:latest`).
 > **Note:** `--runtime nvidia` is deprecated for most environments. Prefer `--gpus ...` with NVIDIA Container Toolkit. Use `--runtime nvidia` only for legacy Docker configurations.
+
+## Ascend NPU
+
+vLLM on Ascend uses the [vllm-ascend](https://github.com/vllm-project/vllm-ascend) plugin. Pre-built images are available at [quay.io/ascend/vllm-ascend](https://quay.io/repository/ascend/vllm-ascend).
+
+### Auto-detect image tag
+
+Select the correct image based on hardware (A2 vs A3) and OS (Ubuntu vs openEuler):
+
+```bash
+# Hardware: dmidecode Product Name (A2, A3, or 310p)
+PRODUCT=$(dmidecode -t system 2>/dev/null | grep -i "Product Name" | head -1)
+if echo "$PRODUCT" | grep -qiE "\bA3\b"; then
+  HW_SUFFIX="-a3"
+elif echo "$PRODUCT" | grep -qiE "310|300I"; then
+  HW_SUFFIX="-310p"
+else
+  HW_SUFFIX=""   # A2 (default)
+fi
+
+# OS: openEuler uses -openeuler suffix
+source /etc/os-release 2>/dev/null
+[ "$(echo "${ID:-}" | tr '[:upper:]' '[:lower:]')" = "openeuler" ] && OS_SUFFIX="-openeuler" || OS_SUFFIX=""
+
+IMAGE="quay.io/ascend/vllm-ascend:v0.14.0rc1${HW_SUFFIX}${OS_SUFFIX}"
+echo "Using image: $IMAGE"
+```
+
+| Hardware | OS | Image tag |
+|----------|-----|-----------|
+| Atlas A2 | Ubuntu | `v0.14.0rc1` |
+| Atlas A2 | openEuler | `v0.14.0rc1-openeuler` |
+| Atlas A3 | Ubuntu | `v0.14.0rc1-a3` |
+| Atlas A3 | openEuler | `v0.14.0rc1-a3-openeuler` |
+| Atlas 300I | Ubuntu | `v0.14.0rc1-310p` |
+| Atlas 300I | openEuler | `v0.14.0rc1-310p-openeuler` |
+
+### Run Ascend container and start server
+
+The vllm-ascend image drops into an interactive bash. Run the container, then start the server inside:
+
+```bash
+# Set IMAGE (use auto-detect above or pick manually, e.g. for A2 + openEuler):
+export IMAGE=quay.io/ascend/vllm-ascend:v0.14.0rc1-openeuler
+
+# Build --device args for all NPU devices (A2: davinci0-7, A3: davinci0-15)
+DEVS=""
+for d in /dev/davinci[0-9]*; do [ -e "$d" ] && DEVS="$DEVS --device $d"; done
+# Or use specific devices: DEVS="--device /dev/davinci0 --device /dev/davinci1"
+
+docker run --rm \
+  --name vllm-ascend \
+  --shm-size=1g \
+  $DEVS \
+  --device /dev/davinci_manager \
+  --device /dev/devmm_svm \
+  --device /dev/hisi_hdc \
+  -v /usr/local/dcmi:/usr/local/dcmi \
+  -v /usr/local/bin/npu-smi:/usr/local/bin/npu-smi \
+  -v /usr/local/Ascend/driver/lib64:/usr/local/Ascend/driver/lib64 \
+  -v /usr/local/Ascend/driver/version.info:/usr/local/Ascend/driver/version.info \
+  -v /etc/ascend_install.info:/etc/ascend_install.info \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
+  -v ~/.cache/modelscope:/root/.cache/modelscope \
+  -e HF_TOKEN=$HF_TOKEN \
+  -e VLLM_USE_MODELSCOPE=true \
+  -p 8000:8000 \
+  -it $IMAGE bash
+```
+
+**Inside the container**, start the vLLM server:
+
+```bash
+# Optional: use ModelScope for faster model download in China
+export VLLM_USE_MODELSCOPE=true
+
+# Start vLLM OpenAI-compatible server (background)
+vllm serve Qwen/Qwen2.5-1.5B-Instruct --port 8000 &
+```
+
+For **multi-node** deployment, add `--net=host` and mount `hccn_tool`:
+
+```bash
+-v /usr/local/Ascend/driver/tools/hccn_tool:/usr/local/Ascend/driver/tools/hccn_tool
+```
+
+### Build Ascend image from source
+
+```bash
+git clone https://github.com/vllm-project/vllm-ascend.git
+cd vllm-ascend
+docker build -t vllm-ascend:dev -f Dockerfile .
+# For A3: use Dockerfile.a3; for openEuler: use Dockerfile.openEuler or Dockerfile.a3.openEuler
+```
+
+### Ascend API test
+
+From the host (or inside container):
+
+```bash
+curl -s http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model":"Qwen/Qwen2.5-1.5B-Instruct","messages":[{"role":"user","content":"Who are you?"}],"max_tokens":128}'
+```
 
 ## Common server flags
 
@@ -180,7 +288,16 @@ curl -s http://localhost:8000/v1/chat/completions \
 
 ## Troubleshooting
 
+**NVIDIA:**
 - Container can't access GPUs: ensure `nvidia-container-toolkit` is installed and restart Docker.
+
+**Ascend:**
+- Container can't access NPUs: ensure Ascend driver and CANN are installed on host; run `npu-smi info` to verify.
+- Wrong image: use `dmidecode -t system | grep Product` and `/etc/os-release` to pick the correct image tag (A2/A3, Ubuntu/openEuler).
+- `libatb.so not found`: ensure NNAL is installed; use the official pre-built vllm-ascend image which includes it.
+- Model download slow: set `VLLM_USE_MODELSCOPE=true` and install `modelscope` for China mirror.
+
+**Common:**
 - Model download failures: check `HF_TOKEN` and network; mount cache directory to persist downloads.
 - Memory / OOM errors: try a smaller model or add more GPU memory; check `--shm-size`.
 - If the container fails with NCCL library path issues (rare): set `VLLM_NCCL_SO_PATH` per upstream guidance.
@@ -206,3 +323,6 @@ groups $USER
 - vLLM repository (docker/Dockerfile): https://github.com/vllm-project/vllm/tree/main/docker
 - NVIDIA Container Toolkit: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
 - Up-to-date deployment instructions and troubleshooting: https://docs.vllm.ai/en/latest/deployment/docker/
+- vllm-ascend plugin: https://github.com/vllm-project/vllm-ascend
+- vllm-ascend Docker images: https://quay.io/repository/ascend/vllm-ascend
+- vllm-ascend installation & quickstart: https://docs.vllm.ai/projects/ascend/en/latest/quick_start.html
