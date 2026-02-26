@@ -165,7 +165,7 @@ vLLM on Ascend uses the [vllm-ascend](https://github.com/vllm-project/vllm-ascen
 
 ### Auto-detect image tag
 
-Select the correct image based on hardware (A2 vs A3) and OS (Ubuntu vs openEuler):
+Select the correct image based on hardware (A2 vs A3). The image tag refers to the **container base OS**; use Ubuntu images (no `-openeuler` suffix) for compatibility across hosts:
 
 ```bash
 # Hardware: dmidecode Product Name (A2, A3, or 310p)
@@ -178,37 +178,30 @@ else
   HW_SUFFIX=""   # A2 (default)
 fi
 
-# OS: openEuler uses -openeuler suffix
-source /etc/os-release 2>/dev/null
-[ "$(echo "${ID:-}" | tr '[:upper:]' '[:lower:]')" = "openeuler" ] && OS_SUFFIX="-openeuler" || OS_SUFFIX=""
-
-IMAGE="quay.io/ascend/vllm-ascend:v0.14.0rc1${HW_SUFFIX}${OS_SUFFIX}"
+IMAGE="quay.io/ascend/vllm-ascend:v0.14.0rc1${HW_SUFFIX}"
 echo "Using image: $IMAGE"
 ```
 
-| Hardware | OS | Image tag |
-|----------|-----|-----------|
-| Atlas A2 | Ubuntu | `v0.14.0rc1` |
-| Atlas A2 | openEuler | `v0.14.0rc1-openeuler` |
-| Atlas A3 | Ubuntu | `v0.14.0rc1-a3` |
-| Atlas A3 | openEuler | `v0.14.0rc1-a3-openeuler` |
-| Atlas 300I | Ubuntu | `v0.14.0rc1-310p` |
-| Atlas 300I | openEuler | `v0.14.0rc1-310p-openeuler` |
+| Hardware | Image tag |
+|----------|-----------|
+| Atlas A2 | `v0.14.0rc1` |
+| Atlas A3 | `v0.14.0rc1-a3` |
+| Atlas 300I | `v0.14.0rc1-310p` |
 
 ### Run Ascend container and start server
 
 The vllm-ascend image drops into an interactive bash. Run the container, then start the server inside:
 
 ```bash
-# Set IMAGE (use auto-detect above or pick manually, e.g. for A2 + openEuler):
-export IMAGE=quay.io/ascend/vllm-ascend:v0.14.0rc1-openeuler
+# Set IMAGE (use auto-detect above or pick manually, e.g. for A2):
+export IMAGE=quay.io/ascend/vllm-ascend:v0.14.0rc1
 
 # Build --device args for all NPU devices (A2: davinci0-7, A3: davinci0-15)
 DEVS=""
 for d in /dev/davinci[0-9]*; do [ -e "$d" ] && DEVS="$DEVS --device $d"; done
 # Or use specific devices: DEVS="--device /dev/davinci0 --device /dev/davinci1"
 
-docker run --rm \
+docker run --rm --privileged \
   --name vllm-ascend \
   --shm-size=1g \
   $DEVS \
@@ -250,7 +243,7 @@ For **multi-node** deployment, add `--net=host` and mount `hccn_tool`:
 git clone https://github.com/vllm-project/vllm-ascend.git
 cd vllm-ascend
 docker build -t vllm-ascend:dev -f Dockerfile .
-# For A3: use Dockerfile.a3; for openEuler: use Dockerfile.openEuler or Dockerfile.a3.openEuler
+# For A3: use Dockerfile.a3
 ```
 
 ### Ascend API test
@@ -292,8 +285,9 @@ curl -s http://localhost:8000/v1/chat/completions \
 - Container can't access GPUs: ensure `nvidia-container-toolkit` is installed and restart Docker.
 
 **Ascend:**
+- Add `--privileged` to `docker run`; on Ascend with multiple containers, this is required for NPU access.
 - Container can't access NPUs: ensure Ascend driver and CANN are installed on host; run `npu-smi info` to verify.
-- Wrong image: use `dmidecode -t system | grep Product` and `/etc/os-release` to pick the correct image tag (A2/A3, Ubuntu/openEuler).
+- Wrong image: use `dmidecode -t system | grep Product` to pick the correct image tag (A2, A3, or 310p).
 - `libatb.so not found`: ensure NNAL is installed; use the official pre-built vllm-ascend image which includes it.
 - Model download slow: set `VLLM_USE_MODELSCOPE=true` and install `modelscope` for China mirror.
 
