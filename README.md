@@ -13,6 +13,7 @@ All skills adhere to the Anthropics skills template and can be copied into a Cla
 | Skill | Description |
 |-------|-------------|
 | [vllm-deploy-docker](skills/vllm-deploy-docker/) | Deploy vLLM using Docker (pre-built images or build-from-source) with NVIDIA GPU support and run the OpenAI-compatible server. |
+| [vllm-deploy-k8s](skills/vllm-deploy-k8s/) | Deploy vLLM to Kubernetes with GPU support, health probes, and OpenAI-compatible API endpoint. |
 | [vllm-deploy-simple](skills/vllm-deploy-simple/) | Quick install and deploy vLLM, start serving with a simple LLM, and test OpenAI API. |
 | [vllm-prefix-cache-bench](skills/vllm-prefix-cache-bench/) | Benchmark the efficiency of vLLM automatic prefix caching using fixed prompts, real datasets, or synthetic prefix/suffix patterns. |
 
